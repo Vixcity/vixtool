@@ -4,7 +4,8 @@
   "description": "A basic JavaScript library from author: Vixcity",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -14,12 +15,18 @@
     "vixtool": "./index.js"
   },
   "keywords": [
-    "vixtool"
+    "vixtool",
+    "modules",
+    "util"
   ],
   "author": "Vixcity",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Vixcity/vixtool/issues"
   },
-  "homepage": "https://github.com/Vixcity/vixtool#readme"
+  "homepage": "https://github.com/Vixcity/vixtool#readme",
+  "devDependencies": {
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
 }
