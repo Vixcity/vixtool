@@ -1,6 +1,6 @@
 {
   "name": "vixtool",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A basic JavaScript library from author: Vixcity",
   "main": "index.js",
   "scripts": {
