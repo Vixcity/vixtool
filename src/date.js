@@ -39,6 +39,17 @@ export function formatDate(date = new Date(), format = "YYYY-MM-DD") {
 }
 
 /**
+ * Get the current date and time in the specified format | 获取当前日期和时间，以指定格式显示
+ *
+ * @param {string} [format='YYYY-MM-DD HH:mm:ss'] - The format string. Default to "YYYY-MM-DD HH:mm:ss" | 日期时间的格式
+ * @returns {string} The current date and time string in the specified format | 指定格式的当前日期和时间字符串
+ */
+export function getToday(format = "YYYY-MM-DD") {
+  const today = new Date();
+  return formatDate(today, format);
+}
+
+/**
  * 格式化日期和时间的上午/下午
  *
  * @param {Date} [date=new Date()] - The date object to format. Default to current time | 要格式化的日期对象。默认为当前时间
@@ -205,6 +216,51 @@ export function calculateMonthsYearsDifference(startDate, endDate) {
   return { months, years };
 }
 
+/**
+ * Get the date that is a specified number of days before the given date | 获取指定天数之前的日期
+ *
+ * @param {Date|String} date - The date to get the date before | 要获取日期之前的日期
+ * @param {number} days - The number of days to get before the given date | 要获取的天数
+ * @param {string} [type='before'] - The type of date to get. Valid values are 'before' and 'after' | 获取日期的类型。有效值为'before'和'after'
+ * @returns {Date} The date that is a specified number of days before the given date | 获取指定天数之前的日期
+ */
+export function getBeforeOrAfterDate(
+  dateInput = new Date(),
+  n = 0,
+  type = "before"
+) {
+  let inputDate;
+
+  // check input type and handle
+  // 检查输入类型并处理
+  if (typeof dateInput === "string") {
+    // if it is a string, try to parse it into a Date object
+    // 如果是字符串，尝试将其转换为 Date 对象
+    inputDate = new Date(dateInput);
+    if (isNaN(inputDate.getTime())) {
+      throw new Error("Invalid date string");
+    }
+  } else if (dateInput instanceof Date) {
+    // if it is a Date object, create a new instance to avoid modifying the original object
+    // 如果已经是 Date 对象，直接使用
+    inputDate = new Date(dateInput.getTime()); // create a new instance to avoid modifying the original object | 创建一个新实例，以避免修改原始对象
+  } else {
+    throw new Error("Invalid date input. Must be a string or a Date object");
+  }
+
+  // calculate the date before n days
+  // 计算前 n 天的日期
+  if (type === "before") {
+    inputDate.setDate(inputDate.getDate() - n);
+  } else if (type === "after") {
+    inputDate.setDate(inputDate.getDate() + n);
+  } else {
+    throw new Error("Invalid date type. Must be 'before' or 'after'");
+  }
+
+  return formatDate(inputDate);
+}
+
 export default {
   formatDate,
   formatAMPM,
@@ -213,4 +269,6 @@ export default {
   calculateMonthsYearsDifference,
   calculateDateDifference,
   parseDate,
+  getToday,
+  getBeforeOrAfterDate,
 };

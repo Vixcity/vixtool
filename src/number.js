@@ -262,14 +262,37 @@ export function convertRomanToInteger(s) {
 }
 
 /**
- * 获取指定范围内的随机数
- * @param {Number} minNum - 随机数的最小值
- * @param {Number} maxNum - 随机数的最大值
- * @returns {Number} 随机数
+ * Get a random number within a specified range | 获取指定范围内的随机数
+ * @param {Number} minNum - The minimum value of a random number | 随机数的最小值
+ * @param {Number} maxNum - The maximum value of a random number | 随机数的最大值
+ * @returns {Number} random number | 随机数
  */
-function getRandomNum(minNum, maxNum) {
-  // 实现细节...
-  // Todo
+export function getRandomNum(minNum = 0, maxNum = 100) {
+  // Convert parameters to numerical values
+  // 将参数转换为数值
+  minNum = Number(minNum);
+  maxNum = Number(maxNum);
+
+  // Check if the parameters are valid numbers or numeric strings
+  // 检查转换后的参数是否为有效数字
+  if (isNaN(minNum) || isNaN(maxNum)) {
+    throw new Error("Both arguments must be numbers or numeric strings");
+  }
+
+  // If the minimum value is greater than the maximum value, issue a warning and swap
+  // 如果最小值大于最大值，发出警告并交换
+  if (minNum > maxNum) {
+    console.warn(
+      "The minimum value is greater than the maximum value. The values will be swapped."
+    );
+    let temp = minNum;
+    minNum = maxNum;
+    maxNum = temp;
+  }
+
+  // Generate and return random numbers
+  // 生成并返回随机数
+  return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 }
 
 export default {
@@ -278,4 +301,5 @@ export default {
   separateNumberByThousands,
   convertToRomanNumerals,
   convertRomanToInteger,
+  getRandomNum,
 };
