@@ -261,6 +261,55 @@ export function getBeforeOrAfterDate(
   return formatDate(inputDate);
 }
 
+/**
+ * Get the year range between two years | 获取两个年份之间的年份范围
+ *
+ * @param {number} [year1] - The first year. Default to current year | 第一个年份。默认为当前年份
+ * @param {number} [year2] - The second year. Default to the first year | 第二个年份。默认为第一个年份
+ * @param {string} [order='asc'] - The order of the year range. Valid values are 'asc' and 'desc' | 年份范围的顺序。有效值为'asc'和'desc'
+ * @returns {Array} The year range between two years | 两个年份之间的年份范围
+ */
+export function getYearRange(year1, year2, order = "asc") {
+  // get current year
+  // 获取当前年份
+  const currentYear = new Date().getFullYear();
+
+  // Parameter processing
+  // 参数处理
+  year1 = year1 || currentYear;
+  year2 = year2 || year1;
+
+  // Ensure that year1 and year2 are numbers
+  // 确保年份是数字
+  year1 = typeof year1 === "string" ? parseInt(year1) : year1;
+  year2 = typeof year2 === "string" ? parseInt(year2) : year2;
+
+  // Ensure that year1 is less than or equal to year2
+  // 确保year1比year2小
+  if (year1 > year2) {
+    const temp = year1;
+    year1 = year2;
+    year2 = temp;
+  }
+
+  // Ensure that year1 is within the valid range
+  // 根据顺序生成年份数组
+  const years = [];
+  if (order === "asc") {
+    for (let i = year1; i <= year2; i++) {
+      years.push(i);
+    }
+  } else {
+    for (let i = year2; i >= year1; i--) {
+      years.push(i);
+    }
+  }
+
+  // Return the year range
+  // 返回年份数组
+  return years;
+}
+
 export default {
   formatDate,
   formatAMPM,
@@ -271,4 +320,5 @@ export default {
   parseDate,
   getToday,
   getBeforeOrAfterDate,
+  getYearRange,
 };
