@@ -144,10 +144,44 @@ export function type(value) {
   }
 
   const typeLabel = Object.prototype.toString.call(value);
-
   const typeName = typeLabel.slice(8, -1);
 
   return typeName;
 }
 
-export default { deepCompare, isObject, isArray, isNaN, type };
+/**
+ * Check if a value exists in a collection (array, object or string) | 检查给定值是否存在于集合中
+ * 
+ * @param {any} value - The value to check | 要检查的值。
+ * @param {Array|Object|string} collection - The collection to check in | 要检查的集合，可以是数组、对象或字符串。
+ * @param {'key'|'value'} [keyOrValue='value'] - If the collection is an object, specify whether to check the key or value. Default is 'value' | 如果集合是对象，指定是检查键还是值。默认为'value'。
+ * @returns {boolean} - If the value exists in the collection, return true; Otherwise, return false | 如果值存在于集合中，返回true；否则返回false。
+ */
+export function checkValueInCollection(value, collection, keyOrValue = 'value') {
+  if (Array.isArray(collection)) {
+    // checks if value exists in array
+    // 检查值是否在数组中
+    return collection.includes(value);
+  } else if (typeof collection === 'object' && collection !== null) {
+    // checks if value exists in object
+    // 检查值是否在对象中
+    if (keyOrValue === 'key') {
+      // checks if key exists in object
+      // 检查属性名是否在对象中
+      return Object.keys(collection).includes(value);
+    } else if (keyOrValue === 'value') {
+      // checks if value exists in object
+      // 检查属性值是否在对象中
+      return Object.values(collection).includes(value);
+    }
+  } else if (typeof collection === 'string') {
+    // checks if value exists in string
+    // 检查字符是否在字符串中
+    return collection.includes(value);
+  }
+  // if collection is not an array, object or string, return false
+  // 如果集合不是预期的类型，返回false
+  return false;
+}
+
+export default { deepCompare, isObject, isArray, isNaN, type, checkValueInCollection };
