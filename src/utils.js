@@ -151,30 +151,34 @@ export function type(value) {
 
 /**
  * Check if a value exists in a collection (array, object or string) | 检查给定值是否存在于集合中
- * 
+ *
  * @param {any} value - The value to check | 要检查的值。
  * @param {Array|Object|string} collection - The collection to check in | 要检查的集合，可以是数组、对象或字符串。
  * @param {'key'|'value'} [keyOrValue='value'] - If the collection is an object, specify whether to check the key or value. Default is 'value' | 如果集合是对象，指定是检查键还是值。默认为'value'。
  * @returns {boolean} - If the value exists in the collection, return true; Otherwise, return false | 如果值存在于集合中，返回true；否则返回false。
  */
-export function checkValueInCollection(value, collection, keyOrValue = 'value') {
+export function checkValueInCollection(
+  value,
+  collection,
+  keyOrValue = "value"
+) {
   if (Array.isArray(collection)) {
     // checks if value exists in array
     // 检查值是否在数组中
     return collection.includes(value);
-  } else if (typeof collection === 'object' && collection !== null) {
+  } else if (typeof collection === "object" && collection !== null) {
     // checks if value exists in object
     // 检查值是否在对象中
-    if (keyOrValue === 'key') {
+    if (keyOrValue === "key") {
       // checks if key exists in object
       // 检查属性名是否在对象中
       return Object.keys(collection).includes(value);
-    } else if (keyOrValue === 'value') {
+    } else if (keyOrValue === "value") {
       // checks if value exists in object
       // 检查属性值是否在对象中
       return Object.values(collection).includes(value);
     }
-  } else if (typeof collection === 'string') {
+  } else if (typeof collection === "string") {
     // checks if value exists in string
     // 检查字符是否在字符串中
     return collection.includes(value);
@@ -184,4 +188,152 @@ export function checkValueInCollection(value, collection, keyOrValue = 'value') 
   return false;
 }
 
-export default { deepCompare, isObject, isArray, isNaN, type, checkValueInCollection };
+/**
+   * Check if a value is empty or null | 检查值是否为空或null。
+   * @param {*} value - The value to check | 要检查的值。
+   * @returns {boolean} - If the value is empty or null, return true; Otherwise, return false | 如果值为空或null，返回true，否则返回false。
+   */
+export function isEmpty(value) {
+  return value == null || value === undefined || value === "";
+};
+
+/**
+ * A utility function for logging and printing formatted messages and data in the console | 一个用于在控制台中记录和打印格式化消息及数据的实用函数。
+ * @returns {Object} - An object containing various logging methods | 包含各种日志方法的对象。
+ */
+export function prettyLog() {
+  /**
+   * Check if the environment is in production mode | 检查环境是否处于生产模式。
+   * @type {boolean}
+   */
+  const isProduction = import.meta.env.MODE === "production";
+
+  
+
+  /**
+   * Print a formatted message in the console | 在控制台中打印格式化消息。
+   * @param {string} title - The title of the message | 消息的标题。
+   * @param {string} text - The content of the message | 消息的内容。
+   * @param {string} color - The color of the message | 消息的颜色。
+   */
+  const prettyPrint = (title, text, color) => {
+    if (isProduction) return;
+    console.log(
+      `%c ${title} %c ${text} %c`,
+      `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
+      `border:1px solid ${color}; padding: 1px; border-radius: 0 2px 2px 0; color: ${color};`,
+      "background:transparent"
+    );
+  };
+
+  /**
+   * record information message | 记录信息消息。
+   * @param {string} textOrTitle - The content or title of the message | 消息的内容或标题。
+   * @param {string} [content=''] - message content | 消息的可选内容。
+   */
+  const info = (textOrTitle, content = "") => {
+    const title = isEmpty(content) ? "信息" : textOrTitle;
+    const text = isEmpty(content) ? textOrTitle : content;
+    prettyPrint(title, text, "#909399");
+  };
+
+  /**
+   * record error message | 记录错误消息。
+   * @param {string} textOrTitle - message content or title | 消息的内容或标题。
+   * @param {string} [content=''] - message content | 消息的可选内容。
+   */
+  const error = (textOrTitle, content = "") => {
+    const title = isEmpty(content) ? "错误" : textOrTitle;
+    const text = isEmpty(content) ? textOrTitle : content;
+    prettyPrint(title, text, "#F56C6C");
+  };
+
+  /**
+   * record warning message | 记录警告消息。
+   * @param {string} textOrTitle - message content or title | 消息的内容或标题。
+   * @param {string} [content=''] - message content | 消息的可选内容。
+   */
+  const warning = (textOrTitle, content = "") => {
+    const title = isEmpty(content) ? "警告" : textOrTitle;
+    const text = isEmpty(content) ? textOrTitle : content;
+    prettyPrint(title, text, "#E6A23C");
+  };
+
+  /**
+   * record success message | 记录成功消息。
+   * @param {string} textOrTitle - message content or title | 消息的内容或标题。
+   * @param {string} [content=''] - message content | 消息的可选内容。
+   */
+  const success = (textOrTitle, content = "") => {
+    const title = isEmpty(content) ? "成功" : textOrTitle;
+    const text = isEmpty(content) ? textOrTitle : content;
+    prettyPrint(title, text, "#67C23A");
+  };
+
+  /**
+   * Print a table in the console | 在控制台中打印表格。
+   * @param {Array<Array<any>>} data - The data to print in the table | 要在表格中打印的数据。
+   */
+  const table = (data) => {
+    console.table(data)
+  };
+
+  /**
+   * Print an image in the console | 在控制台中打印图像。
+   * @param {string} url - The URL of the image | 图像的URL。
+   * @param {number} [scale=1] - The scale of the image | 图像的缩放比例。
+   */
+  const picture = (url, scale = 1) => {
+    if (isProduction) return;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      const ctx = c.getContext("2d");
+      if (ctx) {
+        c.width = img.width;
+        c.height = img.height;
+        ctx.fillStyle = "red";
+        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.drawImage(img, 0, 0);
+        const dataUri = c.toDataURL("image/png");
+
+        console.log(
+          `%c sup?`,
+          `font-size: 1px;
+                  padding: ${Math.floor(
+                    (img.height * scale) / 2
+                  )}px ${Math.floor((img.width * scale) / 2)}px;
+                  background-image: url(${dataUri});
+                  background-repeat: no-repeat;
+                  background-size: ${img.width * scale}px ${
+            img.height * scale
+          }px;
+                  color: transparent;
+                  `
+        );
+      }
+    };
+    img.src = url;
+  };
+
+  return {
+    info,
+    error,
+    warning,
+    success,
+    picture,
+    table,
+  };
+}
+
+export default {
+  deepCompare,
+  isObject,
+  isArray,
+  isNaN,
+  type,
+  checkValueInCollection,
+  prettyLog,
+  isEmpty,
+};
