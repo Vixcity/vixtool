@@ -8,7 +8,18 @@
 export function parseUrl(url) {
   // Create a URL object
   // 创建一个URL对象
-  const parsedUrl = new URL(url || window.location.href);
+  let finalUrl = url;
+
+  if (!finalUrl) {
+    if (typeof window !== 'undefined') {
+      finalUrl = window.location.href;
+    } else {
+      // 当window对象不可用时抛出错误
+      throw new Error("Cannot parse URL in a non-browser environment")
+    }
+  }
+
+  const parsedUrl = new URL(finalUrl);
 
   // Parsing query parameters
   // 解析查询参数
@@ -44,12 +55,12 @@ export function parseUrl(url) {
     protocol: parsedUrl.protocol.slice(0, -1), // Remove the colon at the end | 移除末尾的冒号
     host: parsedUrl.host,
     path: parsedUrl.pathname,
-    queryParams: parseQueryParams(parsedUrl.search),
+    queryParams: parseQueryParams(parsedUrl.search.substring(1)),
   };
 
   // If the port is not the default port (HTTP: 80, HTTPS: 443), add the port attribute
   // 如果端口不是默认端口（HTTP:80, HTTPS:443），则添加port属性
-  if (parsedUrl.port !== (parsedUrl.protocol === "https:" ? "443" : "80")) {
+  if (parsedUrl.port && parsedUrl.port !== (parsedUrl.protocol === "https:" ? "443" : "80")) {
     result.port = parsedUrl.port;
   }
 
@@ -70,6 +81,6 @@ export function parseQueryParams(url) {
 }
 
 export default {
-    parseUrl,
-    parseQueryParams,
+  parseUrl,
+  parseQueryParams,
 };

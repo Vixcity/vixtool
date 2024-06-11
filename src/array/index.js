@@ -1,3 +1,7 @@
+import { deepClone } from "../object";
+import { isArray, isObject, prettyLog } from "../utils";
+const log = prettyLog();
+
 /**
  * @description sort array by name | 按对象的名称排序对象数组
  * @param {*} arr
@@ -8,9 +12,24 @@ export function sortArrayByProperty(
   arr,
   { key, order = "asc" } = { key: "name", order: "asc" }
 ) {
+  // 检查 arr 是否为数组
+  // check if arr is an array
+  if (!isArray(arr)) {
+    throw new Error("The first argument must be an array.");
+  }
+
+  // 检查每个元素是否为对象，并且包含 key
+  arr.forEach((item) => {
+    if (typeof item !== "object" || !item.hasOwnProperty(key)) {
+      throw new Error(
+        `The key "${key}" is not valid for the objects in the array.`
+      );
+    }
+  });
+
   // 创建一个数组的深拷贝
   // create a deep copy of the array
-  const copy = deepCopy(arr);
+  const copy = deepClone(arr);
 
   // 确保 order 是有效的值
   // ensure order is a valid value
@@ -56,17 +75,23 @@ export function sortArrayByProperty(
 export function groupByAndNest(array, groupByKeys, childrenKey = "children") {
   // ensure array is an array
   // 确保array是一个数组
-  if (!Array.isArray(array)) {
+  if (!isArray(array)) {
     throw new Error('The "array" parameter is required and must be an array.');
+  }
+
+  // Check if each element in the array is an object
+  // 检查数组中的每个元素是否都是对象
+  if (!array.every((item) => isObject(item))) {
+    throw new Error("Array elements must be objects.");
   }
 
   // check groupByKeys is defined, not an empty array, and has a length greater than 0
   // 检查groupByKeys是否未定义、空数组或长度为0
   if (
     groupByKeys === undefined ||
-    (Array.isArray(groupByKeys) && groupByKeys.length === 0)
+    (isArray(groupByKeys) && groupByKeys.length === 0)
   ) {
-    console.warn(
+    log.warning(
       'You did not provide the "groupByKeys" parameter or it is an empty array. Returning the original array.'
     );
     return array;
@@ -74,7 +99,7 @@ export function groupByAndNest(array, groupByKeys, childrenKey = "children") {
 
   // if groupByKeys is not an array, convert it to an array
   // 如果groupByKeys不是数组，则将其转换为数组
-  groupByKeys = Array.isArray(groupByKeys) ? groupByKeys : [groupByKeys];
+  groupByKeys = isArray(groupByKeys) ? groupByKeys : [groupByKeys];
 
   // create a Map to store the groups
   // 创建一个Map来存储分组
@@ -108,9 +133,13 @@ export function groupByAndNest(array, groupByKeys, childrenKey = "children") {
       delete rest[key];
     }
 
-    // add the remaining properties to the corresponding group's children array
-    // 将剩余的属性添加到对应分组的children数组中
-    grouped.get(groupKey)[childrenKey].push(rest);
+    // Add the remaining attributes to the corresponding grouped children array
+    // 在将对象添加到对应分组的 children 数组之前检查
+    if (Object.keys(rest).length > 0) {
+      // add the remaining properties to the corresponding group's children array
+      // 将剩余的属性添加到对应分组的children数组中
+      grouped.get(groupKey)[childrenKey].push(rest);
+    }
   });
 
   // Convert the Map to an array and return it
@@ -127,6 +156,10 @@ export function groupByAndNest(array, groupByKeys, childrenKey = "children") {
  * @throws {Error} - If the input is not an array, throw an error | 如果输入的不是数组，则抛出错误
  */
 export function uniqueArray(arr, keyForObjects = null) {
+  if (!isArray(arr)) {
+    throw new Error('The "arr" parameter is required and must be an array.');
+  }
+
   const uniqueSet = new Map();
 
   return arr.filter((item) => {
@@ -142,7 +175,7 @@ export function uniqueArray(arr, keyForObjects = null) {
     }
     // if it is an array array, use recursion to compare
     // 如果是数组数组，则使用递归比较
-    else if (Array.isArray(item)) {
+    else if (isArray(item)) {
       const stringified = JSON.stringify(item);
       if (!uniqueSet.has(stringified)) {
         uniqueSet.set(stringified, item);

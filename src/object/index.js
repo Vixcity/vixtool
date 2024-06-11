@@ -21,6 +21,20 @@ export function deepClone(obj, hash = new WeakMap()) {
     return obj;
   }
 
+  // 检查特殊对象类型并进行克隆
+  // check special object types and clone them
+  const Constructor = obj.constructor;
+  switch (Constructor) {
+    case RegExp:
+      return new Constructor(obj);
+    case Date:
+      return new Constructor(obj.getTime());
+    case Set:
+      return new Set([...obj].map((item) => deepClone(item, hash)));
+    case Map:
+      return new Map([...obj].map(([k, v]) => [k, deepClone(v, hash)]));
+  }
+
   // 如果对象是循环引用中的某个对象，则直接返回
   // if Object is already in the hash table, return it directly
   if (hash.has(obj)) {
@@ -42,7 +56,7 @@ export function deepClone(obj, hash = new WeakMap()) {
     if (obj.hasOwnProperty(key)) {
       // 递归调用
       // recursively call
-      copy[key] = deepCopy(obj[key], hash);
+      copy[key] = deepClone(obj[key], hash);
     }
   }
 

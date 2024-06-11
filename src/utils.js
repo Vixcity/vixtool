@@ -203,21 +203,12 @@ export function isEmpty(value) {
  */
 export function prettyLog() {
   /**
-   * Check if the environment is in production mode | 检查环境是否处于生产模式。
-   * @type {boolean}
-   */
-  const isProduction = import.meta.env.MODE === "production";
-
-  
-
-  /**
    * Print a formatted message in the console | 在控制台中打印格式化消息。
    * @param {string} title - The title of the message | 消息的标题。
    * @param {string} text - The content of the message | 消息的内容。
    * @param {string} color - The color of the message | 消息的颜色。
    */
   const prettyPrint = (title, text, color) => {
-    if (isProduction) return;
     console.log(
       `%c ${title} %c ${text} %c`,
       `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
@@ -284,7 +275,6 @@ export function prettyLog() {
    * @param {number} [scale=1] - The scale of the image | 图像的缩放比例。
    */
   const picture = (url, scale = 1) => {
-    if (isProduction) return;
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => {

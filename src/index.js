@@ -1,8 +1,8 @@
-import varray from "./array.js";
+import varray from "./array";
 import vdate from "./date.js";
-import vobject from "./object.js";
+import vobject from "./object";
 import vstring from "./string.js";
-import vurl from "./url.js";
+import vurl from "./url";
 import vutils from "./utils.js";
 
 // Export defaults to creating a vixtool object, which contains all the methods | Export默认为创建一个包含所有方法的vixtool对象
