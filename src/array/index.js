@@ -19,6 +19,7 @@ export function sortArrayByProperty(
   }
 
   // 检查每个元素是否为对象，并且包含 key
+  // check if each element is an object and has the key property
   arr.forEach((item) => {
     if (typeof item !== "object" || !item.hasOwnProperty(key)) {
       throw new Error(

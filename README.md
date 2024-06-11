@@ -4,7 +4,7 @@
 
 vixtool 作为 Vixcity 工具，作者是 Vixcity
 
- [English](https://github.com/Vixcity/vixtool/blob/master/README.md) | 简体中文
+简体中文 | [English](https://github.com/Vixcity/vixtool/blob/master/README.md) 
 
 ## 安装
 

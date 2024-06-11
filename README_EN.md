@@ -4,7 +4,7 @@ A JavaScript library
 
 vixtool as a Vixcity tool, authored by Vxicity
 
- English | [简体中文](https://github.com/Vixcity/vixtool/blob/master/README.md)
+[simplified Chinese](https://github.com/Vixcity/vixtool/blob/master/README.md) | English
 
 ## Install
 

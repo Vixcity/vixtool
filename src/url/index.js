@@ -15,6 +15,7 @@ export function parseUrl(url) {
       finalUrl = window.location.href;
     } else {
       // 当window对象不可用时抛出错误
+      // Throw an error when the window object is unavailable
       throw new Error("Cannot parse URL in a non-browser environment")
     }
   }
