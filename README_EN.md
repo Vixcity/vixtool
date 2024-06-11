@@ -1,22 +1,22 @@
 # vixtool
 
-一个JavaScript库
+A JavaScript library
 
-vixtool 作为 Vixcity 工具，作者是 Vixcity
+vixtool as a Vixcity tool, authored by Vxicity
 
- [English](https://github.com/Vixcity/vixtool/blob/master/README.md) | 简体中文
+ English | [简体中文](https://github.com/Vixcity/vixtool/blob/master/README.md)
 
-## 安装
+## Install
 
 ```bash
 npm i --save vixtool
 
-# 或者
+# or
 
- yarn add --save vixtool
+yarn add --save vixtool
 ```
 
-## 使用方法
+## Usage
 
 ```js
 import vixtool from 'vixtool';
@@ -24,26 +24,26 @@ import vixtool from 'vixtool';
 console.log(vixtool)
 ```
 
-有关更多详细信息，情查看[源码](https://github.com/Vixcity/vixtool)。
+See the [package source](https://github.com/Vixcity/vixtool) for more details.
 
-## 更新说明
+## Update
 
-- 添加了更多的函数
-- 添加了单元测试
+- Add more functions
+- Add test cases
 
-## 待办事项
+## Todos
 
-- 单元测试
+- test cases
   - [ ] date
   - [ ] number
   - [ ] string
   - [ ] utils
-- 更多的函数
+- more functions
   - [ ] random
   ...
-- 更多的公用函数
+- more utils
   ...
-- 更多的案例
+- more examples
   - [ ] utils
   - [ ] date
   - [ ] number
@@ -52,14 +52,14 @@ console.log(vixtool)
   - [ ] object
   - [ ] array
   ...
-- 创建文档网站
+- create a website for documentation
   ...
 
-## 已完成事项
+## Completed
 
-- [x] 创建一个中文版的README.md
-- [x] 发布一个npm包
-- [x] 已完成的函数
+- [x] create a chinese version of README.md
+- [x] create a npm package
+- [x] completed functions
   - [x] array
     - [x] sortArrayByProperty,
     - [x] groupByAndNest,
