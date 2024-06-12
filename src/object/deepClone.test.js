@@ -2,14 +2,14 @@ import { deepClone } from ".";
 
 describe("deepClone", () => {
   // 应该克隆基元值
-  it("should clone primitive values", () => {
+  test("should clone primitive values", () => {
     const num = 1;
     const clonedNum = deepClone(num);
     expect(clonedNum).toBe(num);
   });
 
   // 应该深度克隆数组
-  it("should deeply clone an array", () => {
+  test("should deeply clone an array", () => {
     const arr = [1, [2, 3], { a: 4 }];
     const clonedArr = deepClone(arr);
     expect(clonedArr).toEqual(arr);
@@ -19,7 +19,7 @@ describe("deepClone", () => {
   });
 
   // 应该深度克隆对象
-  it("should deeply clone an object", () => {
+  test("should deeply clone an object", () => {
     const obj = { a: 1, b: { c: 2 }, d: [3, 4] };
     const clonedObj = deepClone(obj);
     expect(clonedObj).toEqual(obj);
@@ -29,7 +29,7 @@ describe("deepClone", () => {
   });
 
   // 应处理循环引用
-  it("should handle circular references", () => {
+  test("should handle circular references", () => {
     const circularObject = { a: 1 };
     circularObject.b = circularObject;
     const clonedCircularObject = deepClone(circularObject);
@@ -39,7 +39,7 @@ describe("deepClone", () => {
   });
 
   // 应该可以处理特殊对象，比如Date、Set、Map
-  it("should clone special objects like Date, Set, Map", () => {
+  test("should clone special objects like Date, Set, Map", () => {
     const objWithSpecialTypes = {
       date: new Date(),
       set: new Set([1, 2, 3]),

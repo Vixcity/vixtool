@@ -2,21 +2,21 @@ import { uniqueArray } from ".";
 
 describe("uniqueArray function tests", () => {
   // 应该返回唯一的数字数组
-  it("should return only unique numbers in an array", () => {
+  test("should return only unique numbers in an array", () => {
     const input = [1, 2, 3, 2, 1];
     const expected = [1, 2, 3];
     expect(uniqueArray(input)).toEqual(expected);
   });
 
   // 应该返回唯一的字符串数组
-  it("should return only unique strings in an array", () => {
+  test("should return only unique strings in an array", () => {
     const input = ["apple", "banana", "apple", "orange"];
     const expected = ["apple", "banana", "orange"];
     expect(uniqueArray(input)).toEqual(expected);
   });
 
   // 应该返回唯一的对象数组，基于对象的某个属性
-  it("should return only unique objects based on a key", () => {
+  test("should return only unique objects based on a key", () => {
     const input = [
       { id: 1, name: "John" },
       { id: 2, name: "Jane" },
@@ -30,7 +30,7 @@ describe("uniqueArray function tests", () => {
   });
 
   // 应该返回唯一的数组
-  it("should return only unique arrays", () => {
+  test("should return only unique arrays", () => {
     const input = [
       [1, 2],
       [2, 3],
@@ -44,7 +44,7 @@ describe("uniqueArray function tests", () => {
   });
 
   // 应该抛出错误，如果输入不是数组
-  it("should throw an error if the input is not an array", () => {
+  test("should throw an error if the input is not an array", () => {
     const input = "not an array";
     expect(() => uniqueArray(input)).toThrow(
       'The "arr" parameter is required and must be an array.'
@@ -52,14 +52,14 @@ describe("uniqueArray function tests", () => {
   });
 
   // 应该返回空数组，如果输入数组为空
-  it("should return an empty array if input is an empty array", () => {
+  test("should return an empty array if input is an empty array", () => {
     const input = [];
     const expected = [];
     expect(uniqueArray(input)).toEqual(expected);
   });
 
   // 当其他值不同时，应仅保留具有相同keyForObjects值的对象的第一次出现
-  it("should keep only the first occurrence of objects with the same keyForObjects value when other values differ", () => {
+  test("should keep only the first occurrence of objects with the same keyForObjects value when other values differ", () => {
     const input = [
       { id: 1, name: "John", age: 30 },
       { id: 2, name: "Jane", age: 25 },
@@ -73,7 +73,7 @@ describe("uniqueArray function tests", () => {
   });
 
   // 应该保持元素顺序
-  it("should maintain the initial order of elements after deduplication", () => {
+  test("should maintain the initial order of elements after deduplication", () => {
     const input = [
       { id: 1, name: "John" },
       { id: 3, name: "Alice" },

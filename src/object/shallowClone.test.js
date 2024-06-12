@@ -2,7 +2,7 @@ import { shallowClone } from ".";
 
 describe("shallowClone", () => {
   // 测试基本数据类型（如数字）是否被正确返回
-  it("should return the same primitive value", () => {
+  test("should return the same primitive value", () => {
     const num = 1;
     const clonedNum = shallowClone(num);
     // 预期克隆的数字与原始数字相同
@@ -10,7 +10,7 @@ describe("shallowClone", () => {
   });
 
   // 测试对象是否被浅拷贝，即新对象与原对象内容相同但引用不同
-  it("should shallow clone an object", () => {
+  test("should shallow clone an object", () => {
     const obj = { a: 1, b: 2 };
     const clonedObj = shallowClone(obj);
     // 预期克隆的对象与原对象内容相同
@@ -22,7 +22,7 @@ describe("shallowClone", () => {
   });
 
   // 测试数组是否被浅拷贝，即新数组与原数组内容相同但引用不同
-  it("should shallow clone an array", () => {
+  test("should shallow clone an array", () => {
     const arr = [1, 2, 3];
     const clonedArr = shallowClone(arr);
     // 预期克隆的数组与原数组内容相同
@@ -34,7 +34,7 @@ describe("shallowClone", () => {
   });
 
   // 测试嵌套对象和数组是否被正确浅拷贝
-  it("should handle nested objects and arrays", () => {
+  test("should handle nested objects and arrays", () => {
     const nested = { a: 1, b: [2, 3], c: { d: 4 } };
     const clonedNested = shallowClone(nested);
     // 预期克隆的嵌套结构与原结构内容相同
@@ -47,7 +47,7 @@ describe("shallowClone", () => {
   });
 
   // 测试null和undefined是否被正确处理
-  it("should handle null and undefined", () => {
+  test("should handle null and undefined", () => {
     const nullValue = null;
     const undefinedValue = undefined;
     // 预期null和undefined被直接返回
@@ -56,7 +56,7 @@ describe("shallowClone", () => {
   });
 
   // 测试空对象和数组是否被正确浅拷贝
-  it("should handle empty objects and arrays", () => {
+  test("should handle empty objects and arrays", () => {
     const emptyObj = {};
     const emptyArr = [];
     // 预期空对象和数组被浅拷贝，内容相同但引用不同
@@ -67,7 +67,7 @@ describe("shallowClone", () => {
   });
 
   // 测试包含函数和日期的复杂对象是否被正确浅拷贝
-  it("should handle complex objects with functions and dates", () => {
+  test("should handle complex objects with functions and dates", () => {
     const complexObj = {
       func: () => "Hello",
       date: new Date(),

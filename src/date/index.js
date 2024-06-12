@@ -10,10 +10,9 @@ export function formatDate(date = new Date(), format = "YYYY-MM-DD") {
   // if the provided date object is invalid, throw an error and log a warning to the console
   // 如果传入的date不是一个有效的Date对象，抛出错误并在控制台上警告
   if (!(date instanceof Date) || isNaN(date.getTime())) {
-    console.warn(
+    throw new Error(
       "Invalid date provided. Falling back to current date and time."
     );
-    return undefined;
   }
 
   // Define a replacement function for date and time
@@ -68,6 +67,18 @@ export function formatAMPM(date = new Date()) {
  * @returns {string} The formatted 12-hour string | 格式化后的12小时制字符串
  */
 export function format12Hour(hours) {
+  if (typeof hours !== 'number' || isNaN(Number(hours))) {
+    throw new Error('args must be a number or string number');
+  }
+
+  hours = hours % 24;
+
+  if (hours < 0) {
+    hours = 24 - Math.abs(hours);
+  }
+
+  hours = Math.floor(hours)
+
   // 12 hour hour format function
   // 12小时制的小时格式化函数
   const isPM = hours >= 12;
@@ -312,13 +323,13 @@ export function getYearRange(year1, year2, order = "asc") {
 
 export default {
   formatDate,
+  getToday,
   formatAMPM,
   format12Hour,
   isLeapYear,
   calculateMonthsYearsDifference,
   calculateDateDifference,
   parseDate,
-  getToday,
   getBeforeOrAfterDate,
   getYearRange,
 };

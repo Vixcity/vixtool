@@ -2,7 +2,7 @@ import { parseUrl } from ".";
 
 describe("parseUrl", () => {
   // 解析简单的URL
-  it("parses a simple URL", () => {
+  test("parses a simple URL", () => {
     const url = "https://example.com/path?query=value";
     const result = parseUrl(url);
     expect(result).toEqual({
@@ -14,7 +14,7 @@ describe("parseUrl", () => {
   });
 
   // 使用非默认端口解析URL
-  it("parses a URL with a non-default port", () => {
+  test("parses a URL with a non-default port", () => {
     const url = "https://example.com:8080/path?query=value";
     const result = parseUrl(url);
     expect(result).toEqual({
@@ -27,7 +27,7 @@ describe("parseUrl", () => {
   });
 
   // 在查询参数中使用JSON解析URL
-  it("parses a URL with JSON in query parameters", () => {
+  test("parses a URL with JSON in query parameters", () => {
     const url = 'https://example.com/path?data={"key":"value"}';
     const result = parseUrl(url);
     expect(result).toEqual({
@@ -39,7 +39,7 @@ describe("parseUrl", () => {
   });
 
   // 使用默认端口解析URL
-  it("parses a URL with default port", () => {
+  test("parses a URL with default port", () => {
     const url = "http://example.com/path";
     const result = parseUrl(url);
     expect(result).toEqual({

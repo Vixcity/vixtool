@@ -59,6 +59,8 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
 
 - [x] create a chinese version of README.md
 - [x] create a npm package
+- [x] array/object test cases
+- [x] date some test cases
 - [x] completed functions
   - [x] array
     - [x] sortArrayByProperty,
