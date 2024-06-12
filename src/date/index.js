@@ -67,8 +67,8 @@ export function formatAMPM(date = new Date()) {
  * @returns {string} The formatted 12-hour string | 格式化后的12小时制字符串
  */
 export function format12Hour(hours) {
-  if (typeof hours !== 'number' || isNaN(Number(hours))) {
-    throw new Error('args must be a number or string number');
+  if (typeof hours !== "number" || isNaN(Number(hours))) {
+    throw new Error("args must be a number or string number");
   }
 
   hours = hours % 24;
@@ -77,7 +77,7 @@ export function format12Hour(hours) {
     hours = 24 - Math.abs(hours);
   }
 
-  hours = Math.floor(hours)
+  hours = Math.floor(hours);
 
   // 12 hour hour format function
   // 12小时制的小时格式化函数
@@ -168,6 +168,9 @@ export function parseDate(dateString) {
  * @returns {boolean} isLeapYear | 是否是闰年
  */
 export function isLeapYear(year) {
+  if (typeof year !== "number" || year < 1 || !Number.isInteger(year)) {
+    return false;
+  }
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
@@ -295,12 +298,22 @@ export function getYearRange(year1, year2, order = "asc") {
   year1 = typeof year1 === "string" ? parseInt(year1) : year1;
   year2 = typeof year2 === "string" ? parseInt(year2) : year2;
 
+  // Validate that year1 and year2 are numbers
+  // 验证年份是否是数字
+  if (!Number.isInteger(year1) || !Number.isInteger(year2)) {
+    throw new Error("Year values must be integers.");
+  }
+
   // Ensure that year1 is less than or equal to year2
   // 确保year1比year2小
   if (year1 > year2) {
-    const temp = year1;
-    year1 = year2;
-    year2 = temp;
+    [year1, year2] = [year2, year1];
+  }
+
+  // Validate order parameter
+  // 验证order参数
+  if (order !== "asc" && order !== "desc") {
+    throw new Error("Invalid order parameter. Must be 'asc' or 'desc'");
   }
 
   // Ensure that year1 is within the valid range
@@ -326,10 +339,10 @@ export default {
   getToday,
   formatAMPM,
   format12Hour,
+  calculateDateDifference, // 未做
+  parseDate, // 未做
   isLeapYear,
   calculateMonthsYearsDifference,
-  calculateDateDifference,
-  parseDate,
   getBeforeOrAfterDate,
   getYearRange,
 };
