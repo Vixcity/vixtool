@@ -154,6 +154,9 @@ export function calculateDateDifference(options) {
  * @throws {Error} Throw an error when the provided date format is incorrect | 当提供的日期格式不正确时抛出错误
  */
 export function parseDate(dateString) {
+  if (typeof dateString !== "string") {
+    throw new Error("Invalid date input. Date must be a string.");
+  }
   const date = new Date(dateString);
   if (isNaN(date.getTime())) {
     throw new Error("Invalid date format provided.");
@@ -397,7 +400,7 @@ export default {
   formatAMPM,
   format12Hour,
   calculateDateDifference, // 未做
-  parseDate, // 未做
+  parseDate,
   isLeapYear,
   calculateMonthsYearsDifference,
   getBeforeOrAfterDate,

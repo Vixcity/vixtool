@@ -34,7 +34,6 @@ console.log(vixtool)
 ## 待办事项
 
 - 单元测试
-  - [ ] date
   - [ ] number
   - [ ] string
   - [ ] utils
@@ -59,8 +58,7 @@ console.log(vixtool)
 
 - [x] 创建一个中文版的README.md
 - [x] 发布一个npm包
-- [x] array/object 单元测试
-- [x] date 部分单元测试
+- [x] array/object/date 单元测试
 - [x] 已完成的函数
   - [x] array
     - [x] sortArrayByProperty,
