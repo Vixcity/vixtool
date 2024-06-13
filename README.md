@@ -83,6 +83,7 @@ console.log(vixtool)
     - [x] getToday,
     - [x] getBeforeOrAfterDate,
     - [x] getYearRange,
+    - [x] getSevenDaysInfo,
   - [x] number
     - [x] convertNumberToWords,
     - [x] convertToChineseUpperCase,

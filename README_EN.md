@@ -83,6 +83,7 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
     - [x] getToday,
     - [x] getBeforeOrAfterDate,
     - [x] getYearRange,
+    - [x] getSevenDaysInfo,
   - [x] number
     - [x] convertNumberToWords,
     - [x] convertToChineseUpperCase,

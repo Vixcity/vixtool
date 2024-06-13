@@ -334,6 +334,63 @@ export function getYearRange(year1, year2, order = "asc") {
   return years;
 }
 
+/**
+ * Get the seven days information of the given date | 获取给定日期的七天信息
+ *
+ * @param {Object} [options={}] - The options object | 选项对象
+ * @param {string} [options.format='YYYY-MM-DD'] - The format string. Default to 'YYYY-MM-DD' | 日期格式字符串。默认为'YYYY-MM-DD'
+ * @param {Date|String} [options.date=null] - The date to get the seven days information. Default to current date | 要获取七天信息的日期。默认为当前日期
+ * @param {Array} [options.weekdays=["周日", "周一", "周二", "周三", "周四", "周五", "周六"]] - The weekday names. Default to Chinese weekdays | 星期名称数组。默认为中文星期名称
+ * @param {boolean} [options.changeFirst=true] - Whether to change the first day to "今天" or not. Default to true | 是否将第一天改为"今天"。默认为true
+ * @returns {Array} The seven days information array | 七天信息数组
+ */
+export function getSevenDaysInfo(options = {}) {
+  const defaultOptions = {
+    format: "YYYY-MM-DD",
+    date: null,
+    weekdays: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+    changeFirst: false,
+  };
+
+  // merge default options and user provided options
+  // 合并默认选项和用户提供的选项
+  const mergedOptions = { ...defaultOptions, ...options };
+
+  const { weekdays, changeFirst } = mergedOptions;
+  let currentDate = mergedOptions.date
+    ? new Date(mergedOptions.date)
+    : new Date();
+  let daysInfoArray = [];
+
+  for (let i = 0; i < 7; i++) {
+    // get the weekday
+    // 获取星期几
+    let weekday = weekdays[currentDate.getDay()];
+    if (i === 0 && changeFirst) {
+      // the first day is today
+      // 第一天是今天
+      weekday = "今天";
+    }
+
+    // get the date string based on the format
+    // 根据格式生成日期字符串
+    let dateStr = formatDate(currentDate, mergedOptions.format);
+
+    // create an object to store the weekday and date string
+    // 将结果添加到数组
+    daysInfoArray.push({
+      weekday,
+      date: dateStr,
+    });
+
+    // move to the next day
+    // 移动到下一天
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return daysInfoArray;
+}
+
 export default {
   formatDate,
   getToday,
@@ -345,4 +402,5 @@ export default {
   calculateMonthsYearsDifference,
   getBeforeOrAfterDate,
   getYearRange,
+  getSevenDaysInfo,
 };
