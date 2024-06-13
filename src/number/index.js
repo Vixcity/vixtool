@@ -1,3 +1,6 @@
+import { prettyLog } from "../utils";
+const log = prettyLog();
+
 /**
  * Convert numbers to English representation | 将数字转换为英文表示
  * @param {Number} num - Number to be converted | 要转换的数字
@@ -88,7 +91,13 @@ export function convertNumberToWords(num) {
 export function convertToChineseUpperCase(num) {
   // Verify if the input is valid
   // 验证输入是否有效
-  if (num === undefined || num === null || isNaN(Number(num))) {
+  if (
+    num === undefined ||
+    num === null ||
+    isNaN(Number(num)) ||
+    !Number.isInteger(Number(num)) ||
+    Number(num) < 0
+  ) {
     return "Invalid input";
   }
 
@@ -171,7 +180,12 @@ export function convertToChineseUpperCase(num) {
  * @returns {String} Separated numeric string | 分隔后的数字字符串
  */
 export function separateNumberByThousands(num, separator = ",") {
-  if (num === undefined || num === null || isNaN(Number(num))) {
+  if (
+    num === undefined ||
+    num === null ||
+    isNaN(Number(num)) ||
+    (typeof num === "object" && num !== null)
+  ) {
     return "Invalid input"; // Ensure that the input is a valid number or numeric string | 确保输入是有效的数字或数字字符串
   }
 
@@ -194,7 +208,12 @@ export function separateNumberByThousands(num, separator = ",") {
  * @returns {String} The Roman numeral representation of numbers | 罗马数字表示
  */
 export function convertToRomanNumerals(num) {
-  if (typeof num !== "number" || num < 1 || num > 3999) {
+  if (
+    typeof num !== "number" ||
+    num < 1 ||
+    num > 3999 ||
+    !Number.isInteger(num)
+  ) {
     throw new Error("Input must be an integer between 1 and 3999");
   }
 
@@ -242,6 +261,15 @@ export function convertRomanToInteger(s) {
     M: 1000,
   };
 
+  // Regular expression validation to verify if input is a valid Roman numeral
+  // 正则表达式验证输入是否是有效的罗马数字
+  if (
+    !/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/.test(s) ||
+    !s
+  ) {
+    throw new Error("Invalid Roman numeral input");
+  }
+
   let result = 0;
   let prevValue = 0;
 
@@ -261,39 +289,7 @@ export function convertRomanToInteger(s) {
   return result;
 }
 
-/**
- * Get a random number within a specified range | 获取指定范围内的随机数
- * @param {Number} minNum - The minimum value of a random number | 随机数的最小值
- * @param {Number} maxNum - The maximum value of a random number | 随机数的最大值
- * @returns {Number} random number | 随机数
- */
-export function getRandomNum(minNum = 0, maxNum = 100) {
-  // Convert parameters to numerical values
-  // 将参数转换为数值
-  minNum = Number(minNum);
-  maxNum = Number(maxNum);
 
-  // Check if the parameters are valid numbers or numeric strings
-  // 检查转换后的参数是否为有效数字
-  if (isNaN(minNum) || isNaN(maxNum)) {
-    throw new Error("Both arguments must be numbers or numeric strings");
-  }
-
-  // If the minimum value is greater than the maximum value, issue a warning and swap
-  // 如果最小值大于最大值，发出警告并交换
-  if (minNum > maxNum) {
-    console.warn(
-      "The minimum value is greater than the maximum value. The values will be swapped."
-    );
-    let temp = minNum;
-    minNum = maxNum;
-    maxNum = temp;
-  }
-
-  // Generate and return random numbers
-  // 生成并返回随机数
-  return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
-}
 
 export default {
   convertNumberToWords,
@@ -301,5 +297,4 @@ export default {
   separateNumberByThousands,
   convertToRomanNumerals,
   convertRomanToInteger,
-  getRandomNum,
 };

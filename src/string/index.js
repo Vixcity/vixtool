@@ -4,11 +4,21 @@
  * @returns {string} - Naming of converted small humps | 转换后的小驼峰命名
  */
 export function hyphenatedToLowerCamelCase(hyphenatedName) {
-  return hyphenatedName
-    .replace(/-([a-z])/g, function (match, group1) {
-      return group1.toUpperCase();
-    })
-    .replace(/^-/, "");
+  return (
+    hyphenatedName
+      // First, convert the string to lowercase
+      // 首先，将字符串转换为小写
+      .toLowerCase()
+      // Remove the leading hyphen (if it exists)
+      // 移除开头的连字符（如果存在）
+      .replace(/^-+/, "")
+      // Replace the hyphen with a space
+      // 转换连字符后的首个字母为大写
+      .replace(/-+(\d*[a-z])/g, (match, group1) => group1.toUpperCase())
+      // Replace the remaining hyphen with a capital letter
+      // 移除末尾的一个或多个连字符（如果存在）
+      .replace(/-+$/, "")
+  );
 }
 
 /**
@@ -17,9 +27,18 @@ export function hyphenatedToLowerCamelCase(hyphenatedName) {
  * @returns {string} - Naming of the converted camel hump | 转换后的大驼峰命名
  */
 export function hyphenatedToUpperCamelCase(hyphenatedName) {
-  return hyphenatedName.replace(/-([a-z])/g, function (match, group1) {
-    return group1.toUpperCase();
-  });
+  return (
+    hyphenatedName
+      // first, remove the trailing hyphen
+      // 首先移除尾部连字符
+      .replace(/-+$/, "")
+      // convert the first letter to uppercase
+      // 转换逻辑：移除连字符，并确保连字符后的首字母（如果是字母）转为大写
+      .replace(/(^|-+)([a-z0-9])/g, (match, p1, p2) => p2.toUpperCase())
+      // make sure the first letter is not lowercase after the conversion
+      // 确保已大写的首字母不被低写后再大写，从而保持原样
+      .replace(/(^|-+)([A-Z])/g, (match, p1, p2) => p2)
+  );
 }
 
 /**
@@ -41,24 +60,6 @@ export function camelCaseToHyphenated(camelCaseName) {
 }
 
 /**
- * Generate a random string with the specified length | 生成指定长度的随机字符串
- * @param {number} length - The length of the random string | 随机字符串的长度
- * @returns {string} - The generated random string | 生成的随机字符串
- */
-export function generateRandomString(length = 10) {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[{]};:'\\\"|,<.>/?`~";
-  let randomString = "";
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    randomString += characters.charAt(randomIndex);
-  }
-
-  return randomString;
-}
-
-/**
  * Capitalize the first letter of each word in a string | 将字符串中的每个单词的首字母大写
  * @param {string} str - The input string | 输入的字符串
  * @returns {string} - The capitalized string | 首字母大写的字符串
@@ -66,6 +67,7 @@ export function generateRandomString(length = 10) {
 export function capitalizeWords(str) {
   return str
     .toLowerCase()
+    .trim()
     .split(" ")
     .map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -90,7 +92,6 @@ export default {
   hyphenatedToLowerCamelCase,
   hyphenatedToUpperCamelCase,
   camelCaseToHyphenated,
-  generateRandomString,
   capitalizeWords,
   countChars,
 };

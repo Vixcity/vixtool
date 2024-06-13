@@ -2,6 +2,7 @@ import varray from "./array";
 import vdate from "./date";
 import vnumber from './number'
 import vobject from "./object";
+import vrandom from "./random";
 import vstring from "./string";
 import vurl from "./url";
 import vutils from "./utils";
@@ -14,6 +15,7 @@ function createVixtool() {
     vdate,
     vnumber,
     vobject,
+    vrandom,
     vstring,
     vurl,
     vutils,

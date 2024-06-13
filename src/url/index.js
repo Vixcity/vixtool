@@ -11,12 +11,12 @@ export function parseUrl(url) {
   let finalUrl = url;
 
   if (!finalUrl) {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       finalUrl = window.location.href;
     } else {
       // 当window对象不可用时抛出错误
       // Throw an error when the window object is unavailable
-      throw new Error("Cannot parse URL in a non-browser environment")
+      throw new Error("Cannot parse URL in a non-browser environment");
     }
   }
 
@@ -61,7 +61,10 @@ export function parseUrl(url) {
 
   // If the port is not the default port (HTTP: 80, HTTPS: 443), add the port attribute
   // 如果端口不是默认端口（HTTP:80, HTTPS:443），则添加port属性
-  if (parsedUrl.port && parsedUrl.port !== (parsedUrl.protocol === "https:" ? "443" : "80")) {
+  if (
+    parsedUrl.port &&
+    parsedUrl.port !== (parsedUrl.protocol === "https:" ? "443" : "80")
+  ) {
     result.port = parsedUrl.port;
   }
 

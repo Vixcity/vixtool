@@ -33,14 +33,7 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
 
 ## Todos
 
-- test cases
-  - [ ] number
-  - [ ] string
-  - [ ] utils
 - more functions
-  - [ ] random
-  ...
-- more utils
   ...
 - more examples
   - [ ] utils
@@ -58,7 +51,7 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
 
 - [x] create a chinese version of README.md
 - [x] create a npm package
-- [x] array/object/date test cases
+- [x] array/object/date/number/string/utils/url/random test cases
 - [x] completed functions
   - [x] array
     - [x] sortArrayByProperty,

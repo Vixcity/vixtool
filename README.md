@@ -33,14 +33,7 @@ console.log(vixtool)
 
 ## 待办事项
 
-- 单元测试
-  - [ ] number
-  - [ ] string
-  - [ ] utils
 - 更多的函数
-  - [ ] random
-  ...
-- 更多的公用函数
   ...
 - 更多的案例
   - [ ] utils
@@ -58,7 +51,7 @@ console.log(vixtool)
 
 - [x] 创建一个中文版的README.md
 - [x] 发布一个npm包
-- [x] array/object/date 单元测试
+- [x] array/object/date/number/string/utils/url/random 单元测试
 - [x] 已完成的函数
   - [x] array
     - [x] sortArrayByProperty,

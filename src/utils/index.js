@@ -5,24 +5,14 @@
  * @param {Any} b - The second value to compare | 要比较的第二个值
  * @returns {boolean} - If two values are exactly the same, return true; Otherwise, return false | 如果两个值完全相同，则返回true；否则返回false
  */
-export function deepCompare(a, b) {
+export function deepCompare(a, b, seen = new WeakMap()) {
   // Quickly compare basic types and function references
   // 快速比较基本类型和函数引用
-  if (a === b) {
-    // +0===-0, but we still consider them equal
-    // +0 === -0，但我们仍然认为它们相等
-    // NaN !== NaN, but we consider them equal here
-    // NaN !== NaN，但这里我们特殊处理NaN
-    return a !== 0 || 1 / a === 1 / b || (a !== a && b !== b); // NaN比较
-  }
+  if (a === b || (a !== a && b !== b)) return true;
 
   // Check if any of them are null or undefined
   // 检查是否有一个是null或undefined
-  if (a == null || b == null) {
-    // If one is null and the other is not, or if both are but not equal, return false
-    // 如果有一个是null而另一个不是，或者两个都是但不相等，返回false
-    return a === b;
-  }
+  if (a == null || b == null) return a === b;
 
   // Check if they are of different types
   // 检查类型是否相同
@@ -30,57 +20,88 @@ export function deepCompare(a, b) {
   const typeB = typeof b;
   if (typeA !== typeB) return false;
 
-  // For date objects, directly compare timestamps
-  // 对于日期对象，直接比较时间戳
-  if (a instanceof Date && b instanceof Date)
-    return a.getTime() === b.getTime();
+  if (typeA === "object") {
+    // Have we seen this pair before?
+    // 我们是否已经见过这个对？
+    if (seen.has(a)) return seen.get(a) === b;
 
-  // For regular expressions, their source and flags properties can be compared
-  // 对于正则表达式，可以比较它们的source和flags属性
-  if (a instanceof RegExp && b instanceof RegExp) {
-    return a.source === b.source && a.flags === b.flags;
-  }
+    // Store the pair in our set
+    // 存储对
+    seen.set(a, b);
 
-  // If they are objects or arrays, compare their properties recursively
-  // 如果类型不是对象或数组，则它们应该不相等（已经排除了null、undefined、基本类型和函数）
-  if (typeA !== "object" || typeB !== "object") return false;
-
-  // If they are functions, compare their source code
-  // 数组或对象的递归比较
-  if (Array.isArray(a) && Array.isArray(b)) {
-    // If the length is different, return false directly
-    // 长度不同则直接返回false
-    if (a.length !== b.length) return false;
-
-    // Compare array elements one by one
-    // 逐个比较数组元素
-    for (let i = 0; i < a.length; i++) {
-      if (!deepCompare(a[i], b[i])) return false;
+    // For object types, further check if they are objects of the same type
+    // 对于对象类型，进一步检查是否是相同类型的对象
+    if (typeA === "object") {
+      if (a.constructor !== b.constructor) return false;
     }
+
+    // For date objects, directly compare timestamps
+    // 对于日期对象，直接比较时间戳
+    if (a instanceof Date && b instanceof Date)
+      return a.getTime() === b.getTime();
+
+    // For regular expressions, their source and flags properties can be compared
+    // 对于正则表达式，可以比较它们的source和flags属性
+    if (a instanceof RegExp && b instanceof RegExp)
+      return a.source === b.source && a.flags === b.flags;
+
+    // If they are objects or arrays, compare their properties recursively
+    // 如果类型不是对象或数组，则它们应该不相等（已经排除了null、undefined、基本类型和函数）
+    if (typeA !== "object" || typeB !== "object") return false;
+
+    // If they are functions, compare their source code
+    // 数组或对象的递归比较
+    if (Array.isArray(a) && Array.isArray(b)) {
+      // If the length is different, return false directly
+      // 长度不同则直接返回false
+      if (a.length !== b.length) return false;
+
+      // Compare array elements one by one
+      // 逐个比较数组元素
+      for (let i = 0; i < a.length; i++) {
+        if (!deepCompare(a[i], b[i])) return false;
+      }
+
+      // Compare extra properties of the arrays
+      // 逐个比较数组的额外属性
+      const keysA = Object.keys(a);
+      const keysB = Object.keys(b);
+
+      // If the keys are different, return false directly
+      // 数组的键数不同，直接返回false
+      if (keysA.length !== keysB.length) return false;
+
+      // Check if the keys of the array are the same and recursively compare the values
+      // 逐个比较数组的键和值
+      for (const key of keysA) {
+        if (!keysB.includes(key) || !deepCompare(a[key], b[key], seen))
+          return false;
+      }
+
+      return true;
+    }
+
+    // Recursive comparison of ordinary objects
+    // 普通对象的递归比较
+    const keysA = Object.keys(a);
+    const keysB = Object.keys(b);
+
+    // If the keys are different, return false directly
+    // 确保两个对象有相同的键数
+    if (keysA.length !== keysB.length) return false;
+
+    // Check if the keys of the object are the same and recursively compare the values
+    // 检查对象的键是否相同，并递归比较值
+    for (const key of keysA) {
+      if (!b.hasOwnProperty(key) || !deepCompare(a[key], b[key], seen))
+        return false;
+    }
+
+    // If all keys and values are the same, the objects are equal
+    // 所有键和值都相等，所以对象相等
     return true;
   }
-
-  // Recursive comparison of ordinary objects
-  // 普通对象的递归比较
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
-
-  // If the keys are different, return false directly
-  // 确保两个对象有相同的键数
-  if (keysA.length !== keysB.length) return false;
-
-  // Check if the keys of the object are the same and recursively compare the values
-  // 检查对象的键是否相同，并递归比较值
-  for (let i = 0; i < keysA.length; i++) {
-    const key = keysA[i];
-    if (!b.hasOwnProperty(key) || !deepCompare(a[key], b[key])) {
-      return false;
-    }
-  }
-
-  // If all keys and values are the same, the objects are equal
-  // 所有键和值都相等，所以对象相等
-  return true;
+  return false;
 }
 
 /**
@@ -102,7 +123,7 @@ export function isObject(value) {
     return false;
   }
 
-  return true;
+  return Object.prototype.toString.call(value) === "[object Object]";
 }
 
 /**
@@ -189,13 +210,13 @@ export function checkValueInCollection(
 }
 
 /**
-   * Check if a value is empty or null | 检查值是否为空或null。
-   * @param {*} value - The value to check | 要检查的值。
-   * @returns {boolean} - If the value is empty or null, return true; Otherwise, return false | 如果值为空或null，返回true，否则返回false。
-   */
+ * Check if a value is empty or null | 检查值是否为空或null。
+ * @param {*} value - The value to check | 要检查的值。
+ * @returns {boolean} - If the value is empty or null, return true; Otherwise, return false | 如果值为空或null，返回true，否则返回false。
+ */
 export function isEmpty(value) {
   return value == null || value === undefined || value === "";
-};
+}
 
 /**
  * A utility function for logging and printing formatted messages and data in the console | 一个用于在控制台中记录和打印格式化消息及数据的实用函数。
@@ -266,7 +287,7 @@ export function prettyLog() {
    * @param {Array<Array<any>>} data - The data to print in the table | 要在表格中打印的数据。
    */
   const table = (data) => {
-    console.table(data)
+    console.table(data);
   };
 
   /**

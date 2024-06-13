@@ -31,7 +31,7 @@ describe("getBeforeOrAfterDate", () => {
   test("correctly handles leap year day calculations", () => {
     const startDate = new Date(2024, 1, 28); // 2月28日
     const result = getBeforeOrAfterDate(startDate, 1, "after");
-    expect(result).toEqual('2024-02-29'); // 比较日期部分
+    expect(result).toEqual("2024-02-29"); // 比较日期部分
   });
 
   // 测试负数天数的情况
