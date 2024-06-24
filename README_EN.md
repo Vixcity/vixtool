@@ -43,6 +43,7 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
   - [ ] url
   - [ ] object
   - [ ] array
+  - [ ] random
   ...
 - create a website for documentation
   ...

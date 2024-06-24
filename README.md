@@ -43,6 +43,7 @@ console.log(vixtool)
   - [ ] url
   - [ ] object
   - [ ] array
+  - [ ] random
   ...
 - 创建文档网站
   ...
