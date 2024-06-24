@@ -57,6 +57,7 @@ console.log(vixtool)
     - [x] sortArrayByProperty,
     - [x] groupByAndNest,
     - [x] uniqueArray,
+    - [x] filterArray,
   - [x] object
     - [x] shallowClone,
     - [x] deepClone,
@@ -81,7 +82,6 @@ console.log(vixtool)
     - [x] separateNumberByThousands,
     - [x] convertToRomanNumerals,
     - [x] convertRomanToInteger,
-    - [x] getRandomNum,
   - [x] string
     - [x] hyphenatedToLowerCamelCase,
     - [x] hyphenatedToUpperCamelCase,
@@ -98,3 +98,17 @@ console.log(vixtool)
     - [x] checkValueInCollection,
     - [x] prettyLog,
     - [x] isEmpty,
+  - [x] random
+    - [x] getRandomString,
+    - [x] getRandomNum,
+    - [x] getRandomFloat,
+    - [x] getRandomElement,
+    - [x] getRandomBool,
+    - [x] getRandomColor,
+    - [x] getRandomUUID,
+    - [x] shuffleArray,
+    - [x] getRandomDate,
+    - [x] getRandomTimestamp,
+    - [x] getRandomEnum,
+    - [x] getRandomBinary,
+    - [x] getRandomHex,

@@ -196,8 +196,48 @@ export function uniqueArray(arr, keyForObjects = null) {
   });
 }
 
+/**
+ * @description filter an array based on a query | 根据查询条件过滤数组
+ * @param {Array} data origin data | 原始数据
+ * @param {String|Array|Object} query query condition | 查询条件
+ * @param {String} key the key to query | 用于查询的键
+ * @returns {Array} the filtered array | 过滤后的数组
+ */
+export function filterArray(data, query, key) {
+  if (!Array.isArray(data)) {
+    throw new Error("The first argument must be an array.");
+  }
+
+  if (typeof query === "string" || Array.isArray(query)) {
+    if (!key) {
+      throw new Error("A key is required when querying with a string or an array.");
+    }
+    return data.filter(item => {
+      if (typeof item === "object" && item !== null) {
+        return query.includes(item[key]);
+      }
+      return false;
+    });
+  } else if (typeof query === "object" && query !== null) {
+    if (!key) {
+      throw new Error("A key is required when querying with an object.");
+    }
+    return data.filter(item => {
+      if (typeof item === "object" && item !== null) {
+        return item[key] === query[key];
+      }
+      return false;
+    });
+  } else {
+    throw new Error("The second argument must be a string, an array, or an object.");
+  }
+
+  return []; // 如果没有找到匹配的项，返回空数组
+}
+
 export default {
   sortArrayByProperty,
   groupByAndNest,
   uniqueArray,
+  filterArray,
 };

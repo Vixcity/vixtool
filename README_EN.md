@@ -57,6 +57,7 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
     - [x] sortArrayByProperty,
     - [x] groupByAndNest,
     - [x] uniqueArray,
+    - [x] filterArray,
   - [x] object
     - [x] shallowClone,
     - [x] deepClone,
@@ -81,7 +82,6 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
     - [x] separateNumberByThousands,
     - [x] convertToRomanNumerals,
     - [x] convertRomanToInteger,
-    - [x] getRandomNum,
   - [x] string
     - [x] hyphenatedToLowerCamelCase,
     - [x] hyphenatedToUpperCamelCase,
@@ -98,3 +98,17 @@ See the [package source](https://github.com/Vixcity/vixtool) for more details.
     - [x] checkValueInCollection,
     - [x] prettyLog,
     - [x] isEmpty,
+  - [x] random
+    - [x] getRandomString,
+    - [x] getRandomNum,
+    - [x] getRandomFloat,
+    - [x] getRandomElement,
+    - [x] getRandomBool,
+    - [x] getRandomColor,
+    - [x] getRandomUUID,
+    - [x] shuffleArray,
+    - [x] getRandomDate,
+    - [x] getRandomTimestamp,
+    - [x] getRandomEnum,
+    - [x] getRandomBinary,
+    - [x] getRandomHex,
